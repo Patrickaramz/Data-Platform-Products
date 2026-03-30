@@ -50,8 +50,6 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Kör funktionen så att databasen skapas direkt
-init_db()
 
 @app.get("/")
 def root():
@@ -103,4 +101,5 @@ def stream_products():
 
 if __name__ == "__main__":
     import uvicorn
+    init_db() # Bytt plats på init_db så att databasen förbereds precis innan servern startar.
     uvicorn.run(app, host="127.0.0.1", port=8000)
