@@ -8,7 +8,7 @@ import os
 app = FastAPI()
 
 
-# Inställningar för CORS så att 
+# Inställningar för CORS, detta tillåter frontend att anropa vårat API från alla källor
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
