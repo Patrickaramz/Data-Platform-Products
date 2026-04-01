@@ -36,10 +36,10 @@ def init_db():
 @app.get("/api/stats")
 def get_stats():
     conn = sqlite3.connect('platform.db')
-    df = pd.read_sql("SELECCT * FROM products", conn)
+    df = pd.read_sql("SELECT * FROM products", conn)
     conn.close()
 
-    if df.empty
+    if df.empty:
         return {"Error": "Inget data tillgänglig"}
     
     # Transformering med pandas groupby
@@ -52,7 +52,7 @@ def get_stats():
     }
 
 # 3. LOAD / STREAM (Simulerat händelseflöde för kafka)
-app.get("/api/stream")
+@app.get("/api/stream")
 def stream_products():
     conn = sqlite3.connect('platform.db')
     df = pd.read_sql("SELECT product_name, price FROM products ORDER BY price DESC LIMIT 5", conn)
@@ -64,7 +64,7 @@ def stream_products():
     for p in products:
         event = json.dumps(p)
         print(f"PRODUCER -> Skickar händelse: {event}")
-        time.sleep(0,8)
+        time.sleep(0.8)
 
     return{"status": "Success", "message": "Data printad stegvis"}
 
@@ -72,7 +72,6 @@ def stream_products():
 if __name__ == "__main__":
     import uvicorn 
     init_db()
-
-uvicorn.run(app, host="0.0.0.0", port=8000)     # För docker container
+    uvicorn.run(app, host="0.0.0.0", port=8000)     # För docker container
 
 
