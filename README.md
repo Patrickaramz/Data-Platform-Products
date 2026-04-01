@@ -1,29 +1,50 @@
-# Inlämning: Data Platform 26 - ETL-flöde med python
+# Inlämning: Data Platform 26 - ETL-flöde med python & docker
 
 ## Projektbeskrivning
 Detta projekt är en kompletteringsuppgift som demonstrerar ett grundläggande ETL-flöde
-(Extract, Transform, Load). Programmet läser in produktdata från en CSV-fil, genomför statistiska beräkningar och presenterar resultatet stegvis.
+(Extract, Transform, Load) samt gör ett simulerat händelseflöde. Programmet läser in produktdata från en CSV-fil, genomför statistiska beräkningar med hjälp av pandas och presenterar resultatet via ett FastApi
 
 ## Installation & Uppstart
-För att köra detta projekt lokalt:
+
+### Alternativ 1 Docker
+
+1. Bygg imagen:
+   ```bash
+   docker build -t min-dataplatform . 
+   ```
+
+
+2. Starta containern
+   ```bash
+   docker run -p 8000:8000 min-dataplattform 
+   ```
+
+3. Besök API: http://localhost:8000/api/stats
+
+### Alternativt 2 Lokalt
 
 1. Installera nödvändiga bibliotek:
-   ```bash
-   pip install fastapi uvicorn pandas
+ pip install fastapi uvicorn pandas
 
 2. Kör applikationen:
-   ```bash
-   python main.py
+python main.py
+
+## API Endpoints
+
+1. GET /api/stats: Visar transformerad statistik (medelpris per kategori)
+
+2. GET /api/stream: Simulerar ett händelseflöde som loggar händelser i realtid
 
 
 ## Arbetsprocess
 
-1. Sprint 1: Grundläggande setup av FastAPI och databaskoppling
+1. Sprint 1: Setup av FastApi och grundläggande struktur
 
-2. Sprint 2: Implementering av logik för statistik och simulering av flödet.
+2. Sprint 2: Implementering av Pandas logik för statistik och simulering av händelseflöde
 
-3. Spring 3: Dokumentation och finslipning av felhantering, exempelvis hantering av kolumnnamn i CSV-filen.
+3. Sprint 3: Docker konfiguration och felsökning samt tester.
 
-# Reflektion
 
-Genom att dela upp arbetet i mindre testbara delar har jag kunnat identifiera och lösa problem tidigt i arbetsprocessen. Ett exempel på detta var nör kolumnnamnen i CSV-filen inte matchade mina SQL frågor. Pågrund av att jag testade varje delmoment i koden kunde jag snabbt justera den och verifiera att allt fungerade innan jag gick vidare till nästa moment. Detta arbetssätt har gjort projektet mer stabilt samt lätt att jobba med i samband med att jag inte hade flera fel i slutet av koden. 
+## Reflektion
+
+Genom att dela upp arbetet i delar har jag kunnat isolera problem tidigt. Ett exempel från detta var kolumnnamnen i csv-filen måste matcha koden i main.py för att pandas beräkningarna skulle fungera korrekt. Genom att använda docker i slutskedet har jag säkertsälllt att applikationen är obereoende av den lokala miljön vilket gör lösningen redo för en riktig data plattform.
