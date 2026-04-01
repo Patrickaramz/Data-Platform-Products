@@ -25,7 +25,7 @@ def init_db():
     if os.path.exists('products_100.csv'):
         df = pd.read_csv('products_100.csv')
 
-        df.columns = ['products_name', 'category', 'price', 'stock_quantity', 'extra']
+        df.columns = ['product_name', 'category', 'price', 'stock_quantity', 'extra']
         df = df.drop(columns=['extra'])
 
         df.to_sql('products', conn, if_exists='replace', index=False)
@@ -60,7 +60,7 @@ def stream_products():
 
     products = df.to_dict(orient='records')
 
-    print("\n--- STARTAR HÖBDEKSEFKLDE (KAFKA.FORMAT) ---")
+    print("\n--- STREAMING DATA ---")
     for p in products:
         event = json.dumps(p)
         print(f"PRODUCER -> Skickar händelse: {event}")
